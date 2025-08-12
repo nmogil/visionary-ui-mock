@@ -73,8 +73,10 @@ const MenubarTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none border-b-4 border-transparent pt-2",
-      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
-      "data-[state=open]:border-b-4 data-[state=open]:border-foreground data-[state=open]:border-dashed data-[state=open]:text-accent-foreground data-[state=open]:dark:border-ring",
+      "hover:border-b-4 hover:border-foreground hover:border-dashed hover:text-foreground",
+      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-foreground focus:opacity-100",
+      "data-[state=open]:border-b-4 data-[state=open]:border-foreground data-[state=open]:border-dashed data-[state=open]:text-foreground data-[state=open]:dark:border-ring data-[state=open]:opacity-100",
+      "active:opacity-100",
       className
     )}
     {...props}
