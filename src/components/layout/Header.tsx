@@ -13,10 +13,10 @@ const Header = () => {
         <nav className="flex items-center gap-2">
           <ThemeToggle />
           <Button variant="ghost" size="sm" asChild>
-            <Link to="/#login" aria-label="Log in to VisionAIry">Log in</Link>
+            <Link to="/login" aria-label="Log in to VisionAIry">Log in</Link>
           </Button>
           <Button size="sm" asChild>
-            <Link to="/#signup" aria-label="Sign up for VisionAIry">Sign up</Link>
+            <Link to="/signup" aria-label="Sign up for VisionAIry">Sign up</Link>
           </Button>
         </nav>
       </div>
