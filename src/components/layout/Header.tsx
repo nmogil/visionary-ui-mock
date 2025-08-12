@@ -22,9 +22,7 @@ const Header = () => {
                 </MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem asChild>
-                  <Link to="/signup" aria-label="Sign up for VisionAIry">
-                    Sign up <MenubarShortcut>⌘S</MenubarShortcut>
-                  </Link>
+                  <Link to="/signup" aria-label="Sign up for VisionAIry">Sign up</Link>
                 </MenubarItem>
                 <MenubarSeparator />
                 <MenubarLabel>Theme</MenubarLabel>
