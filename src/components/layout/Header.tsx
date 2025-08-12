@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/ui/8bit/menubar";
 import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
@@ -10,14 +10,22 @@ const Header = () => {
           <span className="font-display text-base md:text-lg">VisionAIry</span>
         </Link>
 
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-3">
           <ThemeToggle />
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/login" aria-label="Log in to VisionAIry">Log in</Link>
-          </Button>
-          <Button size="sm" asChild>
-            <Link to="/signup" aria-label="Sign up for VisionAIry">Sign up</Link>
-          </Button>
+          <Menubar className="w-fit">
+            <MenubarMenu>
+              <MenubarTrigger>Account</MenubarTrigger>
+              <MenubarContent>
+                <MenubarItem asChild>
+                  <Link to="/login" aria-label="Log in to VisionAIry">Log in <MenubarShortcut>⌘L</MenubarShortcut></Link>
+                </MenubarItem>
+                <MenubarSeparator />
+                <MenubarItem asChild>
+                  <Link to="/signup" aria-label="Sign up for VisionAIry">Sign up <MenubarShortcut>⌘S</MenubarShortcut></Link>
+                </MenubarItem>
+              </MenubarContent>
+            </MenubarMenu>
+          </Menubar>
         </nav>
       </div>
     </header>
