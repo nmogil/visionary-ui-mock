@@ -1,6 +1,6 @@
 import CreateRoomButton from "./CreateRoomButton";
 import JoinRoomForm from "./JoinRoomForm";
-
+import TypewriterText from "@/components/animation/TypewriterText";
 const mockStats = {
   gamesPlayed: 1234,
   imagesGenerated: 5678,
@@ -16,13 +16,17 @@ export const HeroSection = () => {
           className="font-display text-3xl leading-tight md:text-4xl lg:text-5xl animate-fade-in motion-reduce:animate-none"
           style={{ animationDelay: "0ms" }}
         >
-          AI Image Party
+          <TypewriterText text="AI Image Party" delay={0} />
         </h1>
         <p
           className="mx-auto mt-4 max-w-2xl text-muted-foreground animate-fade-in motion-reduce:animate-none"
           style={{ animationDelay: "100ms" }}
         >
-          Generate hilarious AI images to match crazy prompts with friends
+          <TypewriterText
+            text="Generate hilarious AI images to match crazy prompts with friends"
+            delay={0.2}
+            speed={0.02}
+          />
         </p>
 
         <div
