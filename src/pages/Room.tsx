@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/8bit/button";
 
 const Room = () => {
   const { code } = useParams<{ code: string }>();
