@@ -276,7 +276,7 @@ const Room = () => {
                 size="xl"
                 onClick={handleStartGame}
                 disabled={players.length < 3}
-                className="bg-primary text-primary-foreground"
+                variant="neon"
                 aria-label="Start Game"
               >
                 Start Game
@@ -304,10 +304,11 @@ const Room = () => {
         <div className="container mx-auto flex items-center gap-3 px-4 py-3">
           {isHost ? (
             <Button
-              className="flex-1 bg-primary text-primary-foreground"
+              className="flex-1"
               size="lg"
               onClick={handleStartGame}
               disabled={players.length < 3}
+              variant="neon"
               aria-label="Start Game"
             >
               Start Game
