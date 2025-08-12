@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
   return (
@@ -10,6 +11,7 @@ const Header = () => {
         </Link>
 
         <nav className="flex items-center gap-2">
+          <ThemeToggle />
           <Button variant="ghost" size="sm" asChild>
             <Link to="/#login" aria-label="Log in to VisionAIry">Log in</Link>
           </Button>
