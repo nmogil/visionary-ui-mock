@@ -11,6 +11,7 @@ const buttonVariants = cva(
         default: "bg-background text-foreground border-foreground",
         outline: "bg-transparent text-foreground border-foreground",
         ghost: "bg-transparent text-foreground border-transparent",
+        neon: "bg-background text-primary border-border",
       },
       size: {
         default: "h-10 px-4 text-sm",
