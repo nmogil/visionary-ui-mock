@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet-async";
-import { Label } from "@/components/ui/label";
-import RetroButton from "@/components/retro/RetroButton";
-import { RetroCard, RetroCardContent } from "@/components/retro/RetroCard";
-import RetroInput from "@/components/retro/RetroInput";
+import { Button } from "@/components/ui/8bit/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/8bit/card";
+import { Input } from "@/components/ui/8bit/input";
+import { Label } from "@/components/ui/8bit/label";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
@@ -23,48 +23,37 @@ const Signup = () => {
       </Helmet>
       <main className="container mx-auto max-w-md px-4 py-16">
         <section aria-labelledby="signup-title">
-          <RetroCard className="p-0">
-            <RetroCardContent className="space-y-6">
-              <header className="space-y-1">
-                <h1 id="signup-title" className="text-2xl font-bold tracking-tight">
-                  Create an account
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Join AI Image Party in just a few seconds.
-                </p>
-              </header>
-
-              <form
-                className="space-y-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <RetroInput id="email" name="email" type="email" required placeholder="you@example.com" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <RetroInput id="password" name="password" type="password" required placeholder="••••••••" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirm">Confirm password</Label>
-                  <RetroInput id="confirm" name="confirm" type="password" required placeholder="••••••••" />
-                </div>
-                <RetroButton type="submit" className="w-full">
-                  Sign up
-                </RetroButton>
-              </form>
-
-              <p className="text-sm text-muted-foreground">
-                Already have an account?{" "}
-                <Link to="/login" className="underline underline-offset-4">
-                  Log in
-                </Link>
-              </p>
-            </RetroCardContent>
-          </RetroCard>
+          <div className="flex flex-col gap-6 font-display">
+            <Card>
+              <CardHeader className="text-center">
+                <CardTitle className="text-xl">Create an account</CardTitle>
+                <CardDescription className="text-xs">Join AI Image Party in seconds</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form>
+                  <div className="grid gap-6">
+                    <div className="grid gap-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" type="email" placeholder="m@example.com" required />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="password">Password</Label>
+                      <Input id="password" type="password" required />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="confirm">Confirm password</Label>
+                      <Input id="confirm" type="password" required />
+                    </div>
+                    <Button type="submit" className="w-full">Sign up</Button>
+                    <div className="text-center text-xs">
+                      Already have an account?{" "}
+                      <Link to="/login" className="underline underline-offset-4">Log in</Link>
+                    </div>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
         </section>
       </main>
     </>
