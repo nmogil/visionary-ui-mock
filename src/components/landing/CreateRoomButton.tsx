@@ -10,7 +10,7 @@ const handleCreateRoom = () => {
 
 export const CreateRoomButton = () => {
   return (
-    <Button size="xl" onClick={handleCreateRoom} aria-label="Create Room" className="motion-reduce:transform-none">
+    <Button size="xl" variant="outline" onClick={handleCreateRoom} aria-label="Create Room" className="motion-reduce:transform-none border-b-4 border-transparent pt-2 focus:border-y-4 focus:border-foreground focus:dark:border-ring focus:border-dashed">
       <Play />
       Create Room
     </Button>
