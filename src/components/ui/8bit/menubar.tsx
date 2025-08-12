@@ -92,8 +92,8 @@ const MenubarSubTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       "flex h-10 cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
-      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
-      "data-[state=open]:border-y-4 data-[state=open]:border-foreground data-[state=open]:border-dashed data-[state=open]:text-accent-foreground data-[state=open]:dark:border-ring",
+      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-foreground data-[highlighted]:bg-primary/20 data-[highlighted]:text-foreground data-[highlighted]:opacity-100",
+      "data-[state=open]:border-y-4 data-[state=open]:border-foreground data-[state=open]:border-dashed data-[state=open]:text-foreground data-[state=open]:dark:border-ring",
       inset && "pl-8",
       className
     )}
@@ -173,7 +173,7 @@ const MenubarItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex h-9 cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
-      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
+      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-foreground data-[highlighted]:bg-primary/20 data-[highlighted]:text-foreground data-[highlighted]:opacity-100",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       inset && "pl-8",
       className
@@ -191,7 +191,7 @@ const MenubarCheckboxItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex h-9 cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none",
-      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
+      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-foreground data-[highlighted]:bg-primary/20 data-[highlighted]:text-foreground data-[highlighted]:opacity-100",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
@@ -235,7 +235,7 @@ const MenubarRadioItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex h-9 cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none",
-      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
+      "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-foreground data-[highlighted]:bg-primary/20 data-[highlighted]:text-foreground data-[highlighted]:opacity-100",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
