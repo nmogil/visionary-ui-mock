@@ -83,7 +83,7 @@ All colors MUST be HSL.
 
     --border: 120 100% 40%;
     --input: 120 100% 30%;
-    --ring: 190 95% 60%;
+    --ring: 120 100% 60%;
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 120 100% 70%;
     --sidebar-primary: 190 95% 60%;
@@ -91,7 +91,7 @@ All colors MUST be HSL.
     --sidebar-accent: 150 20% 12%;
     --sidebar-accent-foreground: 120 100% 70%;
     --sidebar-border: 120 100% 35%;
-    --sidebar-ring: 190 95% 60%;
+    --sidebar-ring: 120 100% 60%;
   }
 }
 
