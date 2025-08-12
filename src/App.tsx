@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { HelmetProvider } from "react-helmet-async";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import GameClient from "./pages/GameClient";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/room/:code" element={<Room />} />
+              <Route path="/play/:roomId" element={<GameClient />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
