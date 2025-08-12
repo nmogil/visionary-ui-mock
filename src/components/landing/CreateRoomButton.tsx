@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import RetroButton from "@/components/retro/RetroButton";
 import { Play } from "lucide-react";
 
 // Mock function - just for demonstration
@@ -10,10 +10,10 @@ const handleCreateRoom = () => {
 
 export const CreateRoomButton = () => {
   return (
-    <Button variant="hero" size="xl" onClick={handleCreateRoom} aria-label="Create Room" className="hover-scale active:scale-95 motion-reduce:transform-none">
+    <RetroButton size="xl" onClick={handleCreateRoom} aria-label="Create Room" className="motion-reduce:transform-none">
       <Play />
       Create Room
-    </Button>
+    </RetroButton>
   );
 };
 

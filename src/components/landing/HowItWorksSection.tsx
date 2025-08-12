@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { RetroCard as Card, RetroCardContent as CardContent } from "@/components/retro/RetroCard";
 import { Users, Sparkles, Trophy } from "lucide-react";
 
 export const HowItWorksSection = () => {
