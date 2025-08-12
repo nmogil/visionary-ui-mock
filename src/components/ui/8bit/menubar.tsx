@@ -45,7 +45,7 @@ const Menubar = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     className={cn(
-      "relative border-y-[6px] border-foreground dark:border-ring !p-0",
+      "relative border-y-[4px] border-foreground dark:border-ring !p-0",
       menubarVariants({ font: "retro" }),
       className
     )}
@@ -53,12 +53,12 @@ const Menubar = React.forwardRef<
     <MenubarPrimitive.Root
       ref={ref}
       className={cn(
-        "flex h-10 items-center space-x-1 rounded-md border bg-background p-1",
+        "flex h-9 items-center space-x-1 rounded-md border bg-background p-0.5",
       )}
       {...props}
     />
     <div
-      className="pointer-events-none absolute inset-0 -mx-1.5 border-x-[6px] border-foreground dark:border-ring"
+      className="pointer-events-none absolute inset-0 -mx-1.5 border-x-[4px] border-foreground dark:border-ring"
       aria-hidden="true"
     />
   </div>
@@ -72,7 +72,7 @@ const MenubarTrigger = React.forwardRef<
   <MenubarPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none border-b-4 border-transparent pt-2",
+      "flex cursor-default select-none items-center rounded-sm px-2.5 py-1 text-sm font-medium outline-none border-b-4 border-transparent pt-1.5",
       "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
       "data-[state=open]:border-b-4 data-[state=open]:border-foreground data-[state=open]:border-dashed data-[state=open]:text-accent-foreground data-[state=open]:dark:border-ring",
       className
@@ -89,7 +89,7 @@ const MenubarSubTrigger = React.forwardRef<
   <MenubarPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex h-10 cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
+      "flex h-9 cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none",
       "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
       "data-[state=open]:border-y-4 data-[state=open]:border-foreground data-[state=open]:border-dashed data-[state=open]:text-accent-foreground data-[state=open]:dark:border-ring",
       inset && "pl-8",
@@ -107,7 +107,7 @@ const MenubarSubTrigger = React.forwardRef<
       stroke="currentColor"
       strokeWidth="0.25"
       aria-label="chevron-right"
-      className="ml-auto size-7"
+      className="ml-auto size-6"
     >
       <rect x="128" y="136" width="14" height="14" rx="1"></rect>
       <rect x="112" y="152" width="14" height="14" rx="1"></rect>
@@ -128,7 +128,7 @@ const MenubarSubContent = React.forwardRef<
   <MenubarPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-md border-[6px] border-foreground bg-popover p-1 text-popover-foreground dark:border-ring",
+      "z-50 min-w-[8rem] overflow-hidden rounded-md border-[4px] border-foreground bg-popover p-1 text-popover-foreground dark:border-ring",
       "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
       "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
@@ -150,7 +150,7 @@ const MenubarContent = React.forwardRef<
       alignOffset={alignOffset}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 mt-1 min-w-[12rem] overflow-hidden rounded-md border-[6px] border-foreground bg-popover p-1 text-popover-foreground shadow-md dark:border-ring",
+        "z-50 mt-0.5 min-w-[12rem] overflow-hidden rounded-md border-[4px] border-foreground bg-popover p-1 text-popover-foreground shadow-md dark:border-ring",
         "data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
         "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
@@ -170,7 +170,7 @@ const MenubarItem = React.forwardRef<
   <MenubarPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex h-9 cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
+      "relative flex h-8 cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none",
       "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       inset && "pl-8",
@@ -188,7 +188,7 @@ const MenubarCheckboxItem = React.forwardRef<
   <MenubarPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      "relative flex h-9 cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none",
+      "relative flex h-8 cursor-default select-none items-center rounded-sm py-1 pl-8 pr-2 text-sm outline-none",
       "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
@@ -207,7 +207,7 @@ const MenubarCheckboxItem = React.forwardRef<
           stroke="currentColor"
           strokeWidth="0.25"
           aria-label="check"
-          className="size-7"
+          className="size-6"
         >
           <rect x="80" y="128" width="14" height="14" rx="1" transform="rotate(90 80 128)"></rect>
           <rect x="96" y="144" width="14" height="14" rx="1" transform="rotate(90 96 144)"></rect>
@@ -232,7 +232,7 @@ const MenubarRadioItem = React.forwardRef<
   <MenubarPrimitive.RadioItem
     ref={ref}
     className={cn(
-      "relative flex h-9 cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none",
+      "relative flex h-8 cursor-default select-none items-center rounded-sm py-1 pl-8 pr-2 text-sm outline-none",
       "focus:border-y-4 focus:border-foreground focus:border-dashed focus:dark:border-ring focus:text-accent-foreground",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
