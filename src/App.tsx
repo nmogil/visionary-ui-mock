@@ -11,6 +11,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import GameClient from "./pages/GameClient";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/signup" element={<Signup />} />
               <Route path="/room/:code" element={<Room />} />
               <Route path="/play/:roomId" element={<GameClient />} />
+              <Route path="/app/dashboard" element={<Dashboard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
