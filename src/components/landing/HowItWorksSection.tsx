@@ -6,7 +6,7 @@ export const HowItWorksSection = () => {
     <section id="how-it-works" className="container mx-auto px-4 py-16">
       <h2 className="font-display mb-8 text-center text-2xl md:text-3xl">Ready to laugh?</h2>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card>
+        <Card className="transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md animate-fade-in motion-reduce:animate-none motion-reduce:transform-none" style={{ animationDelay: "0ms" }}>
           <CardContent className="flex items-start gap-4 p-6">
             <Users className="mt-1" />
             <div>
@@ -15,7 +15,7 @@ export const HowItWorksSection = () => {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md animate-fade-in motion-reduce:animate-none motion-reduce:transform-none" style={{ animationDelay: "75ms" }}>
           <CardContent className="flex items-start gap-4 p-6">
             <Sparkles className="mt-1" />
             <div>
@@ -24,7 +24,7 @@ export const HowItWorksSection = () => {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md animate-fade-in motion-reduce:animate-none motion-reduce:transform-none" style={{ animationDelay: "150ms" }}>
           <CardContent className="flex items-start gap-4 p-6">
             <Trophy className="mt-1" />
             <div>

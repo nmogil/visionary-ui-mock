@@ -10,7 +10,7 @@ const handleCreateRoom = () => {
 
 export const CreateRoomButton = () => {
   return (
-    <Button variant="hero" size="xl" onClick={handleCreateRoom} aria-label="Create Room">
+    <Button variant="hero" size="xl" onClick={handleCreateRoom} aria-label="Create Room" className="hover-scale active:scale-95 motion-reduce:transform-none">
       <Play />
       Create Room
     </Button>
