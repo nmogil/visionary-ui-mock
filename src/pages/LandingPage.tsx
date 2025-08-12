@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import HeroSection from "@/components/landing/HeroSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import SimpleFooter from "@/components/landing/SimpleFooter";
+import Header from "@/components/layout/Header";
 
 const LandingPage = () => {
   useEffect(() => {
@@ -25,15 +26,18 @@ const LandingPage = () => {
   };
 
   return (
-    <main>
-      <HeroSection />
-      <HowItWorksSection />
-      <SimpleFooter />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-    </main>
+    <>
+      <Header />
+      <main className="pt-16">
+        <HeroSection />
+        <HowItWorksSection />
+        <SimpleFooter />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </main>
+    </>
   );
 };
 
