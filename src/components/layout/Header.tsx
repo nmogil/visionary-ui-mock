@@ -18,9 +18,7 @@ const Header = () => {
               <MenubarTrigger>Account</MenubarTrigger>
               <MenubarContent className="z-[100] bg-popover">
                 <MenubarItem asChild>
-                  <Link to="/login" aria-label="Log in to VisionAIry">
-                    Log in <MenubarShortcut>⌘L</MenubarShortcut>
-                  </Link>
+                  <Link to="/login" aria-label="Log in to VisionAIry">Log in</Link>
                 </MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem asChild>
