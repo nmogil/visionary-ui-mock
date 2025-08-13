@@ -48,7 +48,7 @@ export const JoinRoomForm = () => {
       >
         <Input
           aria-label="Room code"
-          placeholder="Enter 6-letter code"
+          placeholder="ROOM CODE"
           value={code}
           maxLength={6}
           onChange={(e) => {
