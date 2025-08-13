@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/8bit/button";
 import { Input } from "@/components/ui/8bit/input";
 import PromptPhase from "./phases/PromptPhase";
 import GeneratingPhase from "./phases/GeneratingPhase";
+import VotingPhase from "./phases/VotingPhase";
 
 export type GamePhase = "prompting" | "generating" | "voting" | "results" | "gameOver";
 
@@ -36,31 +37,6 @@ export default PhaseContainer;
 
 
 
-// Voting Phase
-const VotingPhase: React.FC<Props> = ({ currentQuestion, generatedImages, onVote, cardCzarId, currentUserId }) => {
-  const isCzar = cardCzarId === currentUserId;
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-base md:text-lg font-medium">{currentQuestion}</h2>
-        <span className="text-xs text-muted-foreground">{isCzar ? "You're the Card Czar" : "Waiting for Card Czar…"}</span>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {generatedImages.map((src, i) => (
-          <button
-            key={i}
-            className={`relative aspect-square overflow-hidden rounded-none border-2 border-foreground bg-card ${isCzar ? "hover-scale" : "opacity-80 cursor-not-allowed"}`}
-            onClick={() => isCzar && onVote(i)}
-            disabled={!isCzar}
-            aria-label={`Vote image ${i + 1}`}
-          >
-            <img src={src} alt={`Generated image ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 // Results Phase
 const ResultsPhase: React.FC<Props> = ({ generatedImages, selectedWinner, players }) => {
