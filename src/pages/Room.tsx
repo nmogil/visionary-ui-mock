@@ -11,6 +11,7 @@ import { Copy, Share2, Crown, Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
 import RoomSettings from "@/components/room/RoomSettings";
 import UsernameDialog from "@/components/auth/UsernameDialog";
+import PresenceIndicator, { PresencePlayer } from "@/components/presence/PresenceIndicator";
 import useUser from "@/hooks/use-user";
 
 // Types
@@ -61,6 +62,19 @@ const Room = () => {
   ];
   const [players, setPlayers] = useState<Player[]>(initialPlayers);
 
+  // Presence state for advanced player activity
+  const [presencePlayers, setPresencePlayers] = useState<PresencePlayer[]>(
+    initialPlayers.map(p => ({
+      ...p,
+      status: "idle" as const,
+      phase: "lobby",
+      isTyping: false,
+      latency: 50 + Math.random() * 150,
+      isTabAway: false,
+      cursorPosition: { x: Math.random() * 100, y: Math.random() * 100 }
+    }))
+  );
+
   // Page metadata
   useEffect(() => {
     document.title = `Room ${code} — AI Image Party`;
@@ -89,6 +103,26 @@ const Room = () => {
         };
         return [...prev, newPlayer];
       });
+      
+      // Also add to presence players
+      setPresencePlayers((prev) => {
+        const cap = Math.min(5, mockRoom.settings.maxPlayers);
+        if (prev.length >= cap) return prev;
+        const nextNum = prev.length + 1;
+        const newPresencePlayer: PresencePlayer = {
+          id: Date.now().toString(),
+          name: `Player ${nextNum}`,
+          isHost: false,
+          isConnected: true,
+          status: "idle",
+          phase: "lobby",
+          isTyping: false,
+          latency: 50 + Math.random() * 150,
+          isTabAway: false,
+          cursorPosition: { x: Math.random() * 100, y: Math.random() * 100 }
+        };
+        return [...prev, newPresencePlayer];
+      });
     }, 5000);
 
     const statusInterval = setInterval(() => {
@@ -99,6 +133,19 @@ const Room = () => {
         next[idx] = { ...next[idx], isConnected: !next[idx].isConnected };
         return next;
       });
+      
+      // Update presence players connection status
+      setPresencePlayers((prev) => {
+        if (prev.length === 0) return prev;
+        const idx = Math.floor(Math.random() * prev.length);
+        const next = [...prev];
+        next[idx] = { 
+          ...next[idx], 
+          isConnected: !next[idx].isConnected,
+          lastSeen: !next[idx].isConnected ? new Date() : undefined
+        };
+        return next;
+      });
     }, 8000);
 
     return () => {
@@ -106,6 +153,40 @@ const Room = () => {
       clearInterval(statusInterval);
     };
   }, [loading, mockRoom.settings.maxPlayers]);
+
+  // Mock presence state changes every 3-5 seconds
+  useEffect(() => {
+    if (loading) return;
+    
+    const presenceInterval = setInterval(() => {
+      setPresencePlayers((prev) => {
+        if (prev.length === 0) return prev;
+        
+        const statuses = ["thinking", "writing", "submitted", "voting", "idle"] as const;
+        const phases = ["lobby", "waiting", "ready"];
+        
+        return prev.map((player) => {
+          const shouldUpdate = Math.random() > 0.7; // 30% chance to update each player
+          if (!shouldUpdate) return player;
+          
+          return {
+            ...player,
+            status: statuses[Math.floor(Math.random() * statuses.length)],
+            phase: phases[Math.floor(Math.random() * phases.length)],
+            isTyping: Math.random() > 0.8, // 20% chance typing
+            latency: 30 + Math.random() * 200,
+            isTabAway: Math.random() > 0.9, // 10% chance tab away
+            cursorPosition: {
+              x: Math.random() * 100,
+              y: Math.random() * 100
+            }
+          };
+        });
+      });
+    }, 3000 + Math.random() * 2000); // 3-5 seconds
+
+    return () => clearInterval(presenceInterval);
+  }, [loading]);
 
   const isFull = players.length >= mockRoom.settings.maxPlayers;
   const validCodes = ["ABCDEF"]; // only this code exists in mock mode
@@ -201,7 +282,7 @@ const Room = () => {
           </div>
         )}
 
-        {/* Players Section */}
+        {/* Players Section with Presence */}
         <section className="mt-6">
           <h2 className="font-display text-lg">Players</h2>
           {loading ? (
@@ -223,40 +304,12 @@ const Room = () => {
             </div>
           ) : (
             <>
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {players.map((p) => (
-                  <Card key={p.id} className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="relative">
-                        <Avatar className="h-10 w-10">
-                          <AvatarFallback className="bg-primary/10 text-foreground">
-                            {p.name.charAt(0).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span
-                          className={`absolute -bottom-1 -right-1 h-3 w-3 rounded-full border-2 border-background ${
-                            p.isConnected ? "bg-primary" : "bg-muted-foreground"
-                          }`}
-                          aria-label={p.isConnected ? "connected" : "disconnected"}
-                        />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2">
-                          <p className="truncate">{p.name}</p>
-                          {p.isHost && (
-                            <Badge variant="secondary" className="inline-flex items-center gap-1">
-                              <Crown className="h-3.5 w-3.5" /> Host
-                            </Badge>
-                          )}
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          {p.isConnected ? "Online" : "Reconnecting..."}
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
+              <PresenceIndicator 
+                players={presencePlayers} 
+                showCursors={true}
+                showNetworkStatus={true}
+                className="mt-4"
+              />
               {players.length < 3 && (
                 <p className="mt-3 text-sm text-muted-foreground">Waiting for players...</p>
               )}

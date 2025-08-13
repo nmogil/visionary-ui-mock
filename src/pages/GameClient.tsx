@@ -50,6 +50,22 @@ const GameClient: React.FC = () => {
     { id: "456", name: "Player 2", score: 1 },
     { id: "789", name: "Player 3", score: 2 },
   ]);
+
+  // Enhanced players with presence data for sidebar
+  const [playersWithPresence, setPlayersWithPresence] = useState<
+    (Player & {
+      status: "thinking" | "writing" | "submitted" | "voting" | "idle";
+      isTyping: boolean;
+      latency: number;
+    })[]
+  >(
+    players.map(p => ({
+      ...p,
+      status: "idle" as const,
+      isTyping: false,
+      latency: 50 + Math.random() * 100
+    }))
+  );
   const [cardCzarIndex, setCardCzarIndex] = useState<number>(1); // Player 2 starts as Czar
   const cardCzar = players[cardCzarIndex];
 
@@ -74,6 +90,35 @@ const GameClient: React.FC = () => {
     }, 1000);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
+  // Mock presence updates every 3-5 seconds
+  useEffect(() => {
+    const presenceInterval = setInterval(() => {
+      setPlayersWithPresence(prev => {
+        const statuses = ["thinking", "writing", "submitted", "voting", "idle"] as const;
+        
+        return prev.map(player => {
+          const shouldUpdate = Math.random() > 0.6; // 40% chance to update
+          if (!shouldUpdate) return player;
+          
+          // Match status to current phase
+          let newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+          if (phase === "prompting") newStatus = Math.random() > 0.5 ? "thinking" : "writing";
+          if (phase === "voting") newStatus = "voting";
+          if (phase === "results" || phase === "generating") newStatus = "idle";
+          
+          return {
+            ...player,
+            status: newStatus,
+            isTyping: newStatus === "writing" && Math.random() > 0.7,
+            latency: 30 + Math.random() * 150
+          };
+        });
+      });
+    }, 3000 + Math.random() * 2000);
+
+    return () => clearInterval(presenceInterval);
   }, [phase]);
 
   const nextPhase = (p: GamePhase): GamePhase => {
@@ -208,7 +253,7 @@ const GameClient: React.FC = () => {
 
         <aside className="lg:col-span-4">
           <PlayerSidebar
-            players={players}
+            players={playersWithPresence}
             cardCzarId={cardCzar.id}
             timeRemaining={timeRemaining}
             phase={phase}
