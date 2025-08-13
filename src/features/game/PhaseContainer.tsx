@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/8bit/button";
 import { Input } from "@/components/ui/8bit/input";
 import PromptPhase from "./phases/PromptPhase";
+import GeneratingPhase from "./phases/GeneratingPhase";
 
 export type GamePhase = "prompting" | "generating" | "voting" | "results" | "gameOver";
 
@@ -25,7 +26,7 @@ interface Props {
 const PhaseContainer: React.FC<Props> = (props) => {
   const { phase } = props;
   if (phase === "prompting") return <PromptPhase {...props} />;
-  if (phase === "generating") return <GeneratingPhase {...props} />;
+  if (phase === "generating") return <GeneratingPhase players={props.players} timeRemaining={props.timeRemaining} />;
   if (phase === "voting") return <VotingPhase {...props} />;
   if (phase === "results") return <ResultsPhase {...props} />;
   return <GameOverPhase {...props} />;
@@ -34,23 +35,6 @@ const PhaseContainer: React.FC<Props> = (props) => {
 export default PhaseContainer;
 
 
-// Generating Phase
-const GeneratingPhase: React.FC<Props> = ({ players, timeRemaining }) => {
-  const total = players.length;
-  const generated = Math.max(0, total - timeRemaining + 1); // rough demo progression
-  return (
-    <div className="space-y-4">
-      <h2 className="text-base md:text-lg font-medium">Generating AI masterpieces…</h2>
-      <div className="text-sm text-muted-foreground">This won't take long…</div>
-      <div className="h-32 md:h-40 grid place-items-center bg-muted animate-fade-in">
-        <div className="text-center">
-          <div className="text-sm md:text-base">{generated} of {total} images generated</div>
-          <div className="text-xs text-muted-foreground">{timeRemaining}s</div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // Voting Phase
 const VotingPhase: React.FC<Props> = ({ currentQuestion, generatedImages, onVote, cardCzarId, currentUserId }) => {
