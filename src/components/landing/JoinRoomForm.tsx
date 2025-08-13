@@ -32,7 +32,7 @@ export const JoinRoomForm = () => {
           const next = e.target.value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 6);
           setCode(next);
         }}
-        className="h-12 text-center tracking-[0.1em] uppercase md:h-12 [&::placeholder]:whitespace-nowrap [&::placeholder]:tracking-normal [&::placeholder]:normal-case [&::placeholder]:text-[10px] sm:[&::placeholder]:text-xs md:[&::placeholder]:text-sm"
+        className="flex-1 min-w-0 px-2 sm:px-3 h-12 text-center tracking-[0.1em] uppercase md:h-12 [&::placeholder]:whitespace-nowrap [&::placeholder]:tracking-tighter [&::placeholder]:normal-case [&::placeholder]:text-[9px] sm:[&::placeholder]:text-xs md:[&::placeholder]:text-sm"
       />
       <Button type="submit" variant="outline" size="xl" aria-label="Join with code">
         <LogIn />
