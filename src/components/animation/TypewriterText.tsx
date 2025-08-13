@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface TypewriterTextProps {
   text: string;
@@ -14,6 +14,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   delay = 0,
   className,
 }) => {
+  const reduce = useReducedMotion();
   const letters = Array.from(text);
 
   const container = {
@@ -31,11 +32,13 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
     visible: { opacity: 1, y: 0, transition: { duration: 0.12, ease: "easeOut" } },
   } as const;
 
+  if (reduce) {
+    return <span className={className}>{text}</span>;
+  }
+
   return (
     <span className={className}>
-      {/* Screen readers get the full text at once */}
       <span className="sr-only">{text}</span>
-      {/* Visual typewriter animation */}
       <motion.span
         aria-hidden="true"
         variants={container}

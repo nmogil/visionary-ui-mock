@@ -1,6 +1,7 @@
 import CreateRoomButton from "./CreateRoomButton";
 import JoinRoomForm from "./JoinRoomForm";
 import TypewriterText from "@/components/animation/TypewriterText";
+import CountUp from "@/components/animation/CountUp";
 const mockStats = {
   gamesPlayed: 1234,
   imagesGenerated: 5678,
@@ -22,11 +23,7 @@ export const HeroSection = () => {
           className="mx-auto mt-4 max-w-2xl text-muted-foreground animate-fade-in motion-reduce:animate-none"
           style={{ animationDelay: "100ms" }}
         >
-          <TypewriterText
-            text="Generate hilarious AI images to match crazy prompts with friends"
-            delay={0.2}
-            speed={0.02}
-          />
+          Generate hilarious AI images to match crazy prompts with friends
         </p>
 
         <div
@@ -50,13 +47,13 @@ export const HeroSection = () => {
           style={{ animationDelay: "300ms" }}
         >
           <div>
-            <span className="font-semibold text-foreground">{mockStats.gamesPlayed.toLocaleString()}</span> games played today
+            <span className="font-semibold text-foreground"><CountUp end={mockStats.gamesPlayed} /></span> games played today
           </div>
           <div>
-            <span className="font-semibold text-foreground">{mockStats.imagesGenerated.toLocaleString()}</span> images generated
+            <span className="font-semibold text-foreground"><CountUp end={mockStats.imagesGenerated} /></span> images generated
           </div>
           <div>
-            <span className="font-semibold text-foreground">{mockStats.playersOnline.toLocaleString()}</span> players online
+            <span className="font-semibold text-foreground"><CountUp end={mockStats.playersOnline} /></span> players online
           </div>
         </div>
       </div>

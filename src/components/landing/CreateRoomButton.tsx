@@ -34,7 +34,7 @@ export const CreateRoomButton = () => {
 
   return (
     <>
-      <Button size="xl" onClick={handleCreateRoom} aria-label="Create Room" className="motion-reduce:transform-none">
+      <Button size="xl" onClick={handleCreateRoom} aria-label="Create Room" className="hover-scale motion-reduce:transform-none">
         <Play />
         Create Room
       </Button>
