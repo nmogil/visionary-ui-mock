@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import GameClient from "./pages/GameClient";
 import Dashboard from "./pages/Dashboard";
+import ImageGridDemo from "./pages/ImageGridDemo";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/room/:code" element={<Room />} />
               <Route path="/play/:roomId" element={<GameClient />} />
               <Route path="/app/dashboard" element={<Dashboard />} />
+              <Route path="/image-grid-demo" element={<ImageGridDemo />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
