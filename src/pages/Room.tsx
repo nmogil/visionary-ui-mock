@@ -3,14 +3,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
 import { Button } from "@/components/ui/8bit/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/8bit/card";
+import { Card } from "@/components/ui/8bit/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Copy, Share2, Crown, Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
-import { Label } from "@/components/ui/8bit/label";
-import { Slider } from "@/components/ui/slider";
+import RoomSettings from "@/components/room/RoomSettings";
 
 // Types
 interface Player {
@@ -52,11 +51,6 @@ const Room = () => {
     { id: "789", name: "Player 3", isHost: false, isConnected: true },
   ];
   const [players, setPlayers] = useState<Player[]>(initialPlayers);
-
-  // Local room settings UI state (visual only for mock)
-  const [timer, setTimer] = useState(mockRoom.settings.timer);
-  const [rounds, setRounds] = useState(mockRoom.settings.rounds);
-  const [maxPlayers, setMaxPlayers] = useState(mockRoom.settings.maxPlayers);
 
   // Page metadata
   useEffect(() => {
@@ -257,57 +251,7 @@ const Room = () => {
         {/* Settings Section */}
         <section className="mt-8">
           <h2 className="sr-only">Room Settings</h2>
-          <Card className="mt-3">
-            <CardHeader>
-              <CardTitle className="text-sm font-medium">Room Settings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-3">
-                <Label htmlFor="timer">Timer</Label>
-                <Slider
-                  id="timer"
-                  value={[timer]}
-                  onValueChange={(v) => setTimer(v[0])}
-                  min={15}
-                  max={120}
-                  step={15}
-                  className="w-full"
-                  aria-label="Seconds per round"
-                />
-                <div className="text-sm font-medium text-primary">{timer}s / round</div>
-              </div>
-
-              <div className="space-y-3">
-                <Label htmlFor="rounds">Rounds</Label>
-                <Slider
-                  id="rounds"
-                  value={[rounds]}
-                  onValueChange={(v) => setRounds(v[0])}
-                  min={1}
-                  max={20}
-                  step={1}
-                  className="w-full"
-                  aria-label="Number of rounds"
-                />
-                <div className="text-sm font-medium text-primary">{rounds} rounds</div>
-              </div>
-
-              <div className="space-y-3">
-                <Label htmlFor="maxPlayers">Max Players</Label>
-                <Slider
-                  id="maxPlayers"
-                  value={[maxPlayers]}
-                  onValueChange={(v) => setMaxPlayers(v[0])}
-                  min={2}
-                  max={16}
-                  step={1}
-                  className="w-full"
-                  aria-label="Maximum players"
-                />
-                <div className="text-sm font-medium text-primary">{maxPlayers}</div>
-              </div>
-            </CardContent>
-          </Card>
+          <RoomSettings className="mt-3" />
         </section>
 
         {/* Actions Section (desktop) */}
