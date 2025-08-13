@@ -10,6 +10,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Copy, Share2, Crown, Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
 import RoomSettings from "@/components/room/RoomSettings";
+import UsernameDialog from "@/components/auth/UsernameDialog";
+import useUser from "@/hooks/use-user";
 
 // Types
 interface Player {
@@ -23,6 +25,13 @@ const Room = () => {
   const { code: codeParam } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const code = (codeParam || "").toUpperCase();
+
+  // User (guest or signed-in)
+  const { user, setUsername, ensureGuest } = useUser();
+  useEffect(() => {
+    ensureGuest();
+  }, [ensureGuest]);
+  const showUsernameDialog = !user?.username;
 
   // Mock Room + Current User
   const mockRoom = useMemo(
@@ -120,6 +129,13 @@ const Room = () => {
     window.location.href = "/play/room123"; // mock navigation
   };
   const handleLeave = () => navigate("/");
+
+  const handleUsernameSaved = (name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    setUsername(trimmed);
+    setPlayers((prev) => prev.map((p) => (p.id === currentUser.id ? { ...p, name: trimmed } : p)));
+  };
 
   if (notFound) {
     return (
@@ -310,6 +326,9 @@ const Room = () => {
           </Button>
         </div>
       </div>
+
+      {/* Username Dialog - force open for guests without a name */}
+      <UsernameDialog open={!!showUsernameDialog} onSubmit={handleUsernameSaved} />
     </>
   );
 };
