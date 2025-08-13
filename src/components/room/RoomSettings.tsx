@@ -23,8 +23,6 @@ import {
   Unlock,
   RotateCcw,
   Save,
-  Download,
-  Upload,
   Info,
   Sparkles,
   Settings
@@ -144,32 +142,6 @@ export default function RoomSettings({
     }
   };
 
-  const exportSettings = () => {
-    const dataStr = JSON.stringify(settings, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'room-settings.json';
-    link.click();
-  };
-
-  const importSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const imported = JSON.parse(e.target?.result as string);
-          setSettings(imported);
-          onSettingsChange?.(imported);
-        } catch (error) {
-          console.error('Failed to import settings:', error);
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
 
   const calculateEstimatedDuration = (): string => {
     const roundTime = settings.timer + settings.votingTime + 15; // +15s for results/transitions
@@ -476,34 +448,6 @@ export default function RoomSettings({
                 <span className="text-xs">Save Preset</span>
               </Button>
               
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={exportSettings}
-                className="flex items-center gap-1"
-              >
-                <Download className="w-3 h-3" />
-                <span className="text-xs">Export</span>
-              </Button>
-              
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => document.getElementById('import-settings')?.click()}
-                disabled={isGameStarted}
-                className="flex items-center gap-1"
-              >
-                <Upload className="w-3 h-3" />
-                <span className="text-xs">Import</span>
-              </Button>
-              
-              <input
-                id="import-settings"
-                type="file"
-                accept=".json"
-                className="hidden"
-                onChange={importSettings}
-              />
             </div>
 
             {/* Saved Presets */}
