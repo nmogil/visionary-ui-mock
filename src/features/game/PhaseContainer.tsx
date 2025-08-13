@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/8bit/input";
 import PromptPhase from "./phases/PromptPhase";
 import GeneratingPhase from "./phases/GeneratingPhase";
 import VotingPhase from "./phases/VotingPhase";
+import ResultsPhase from "./phases/ResultsPhase";
 
 export type GamePhase = "prompting" | "generating" | "voting" | "results" | "gameOver";
 
@@ -29,7 +30,14 @@ const PhaseContainer: React.FC<Props> = (props) => {
   if (phase === "prompting") return <PromptPhase {...props} />;
   if (phase === "generating") return <GeneratingPhase players={props.players} timeRemaining={props.timeRemaining} />;
   if (phase === "voting") return <VotingPhase {...props} />;
-  if (phase === "results") return <ResultsPhase {...props} />;
+  if (phase === "results") return <ResultsPhase 
+    currentQuestion={props.currentQuestion}
+    generatedImages={props.generatedImages}
+    selectedWinner={props.selectedWinner}
+    players={props.players}
+    submissions={props.submissions}
+    timeRemaining={props.timeRemaining}
+  />;
   return <GameOverPhase {...props} />;
 };
 
@@ -38,28 +46,6 @@ export default PhaseContainer;
 
 
 
-// Results Phase
-const ResultsPhase: React.FC<Props> = ({ generatedImages, selectedWinner, players }) => {
-  return (
-    <div className="space-y-4">
-      <h2 className="text-base md:text-lg font-medium">Round Results</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {generatedImages.map((src, i) => (
-          <div
-            key={i}
-            className={`relative aspect-square overflow-hidden rounded-none border-2 ${i === selectedWinner ? "border-primary" : "border-foreground"}`}
-          >
-            <img src={src} alt={`Result image ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
-            <div className="absolute bottom-0 left-0 right-0 bg-background/80 px-2 py-1 text-xs flex items-center justify-between">
-              <span>{players[i]?.name ?? `Player ${i + 1}`}</span>
-              {i === selectedWinner && <span className="text-primary">+1 point</span>}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 // Game Over Phase
 const GameOverPhase: React.FC<Props> = ({ players }) => {
