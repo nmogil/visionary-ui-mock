@@ -41,11 +41,11 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         variants={container}
         initial="hidden"
         animate="visible"
-        className="inline-block"
+        className="inline-block break-normal hyphens-none"
       >
         {letters.map((char, i) => (
-          <motion.span key={i} variants={child} className="inline-block">
-            {char === " " ? "\u00A0" : char}
+          <motion.span key={i} variants={child} className="inline">
+            {char}
           </motion.span>
         ))}
       </motion.span>
