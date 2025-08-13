@@ -122,12 +122,18 @@ All colors MUST be HSL.
     --hero-end: 0 0% 92%;
     --surface-muted: 0 0% 96%;
     --grid-dot: 210 10% 80%;
+    --timer-safe: 120 50% 50%;
+    --timer-warning: 45 100% 60%;
+    --timer-danger: 0 100% 60%;
   }
   .dark {
     --hero-start: 165 80% 10%;
     --hero-end: 190 80% 16%;
     --surface-muted: 150 20% 12%;
     --grid-dot: 120 100% 35%;
+    --timer-safe: 120 60% 60%;
+    --timer-warning: 45 100% 70%;
+    --timer-danger: 0 100% 70%;
   }
 }
 
