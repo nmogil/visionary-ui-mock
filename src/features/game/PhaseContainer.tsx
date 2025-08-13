@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/8bit/button";
 import { Input } from "@/components/ui/8bit/input";
+import PromptPhase from "./phases/PromptPhase";
 
 export type GamePhase = "prompting" | "generating" | "voting" | "results" | "gameOver";
 
@@ -32,43 +33,6 @@ const PhaseContainer: React.FC<Props> = (props) => {
 
 export default PhaseContainer;
 
-// Prompt Phase
-const PromptPhase: React.FC<Props> = ({ currentQuestion, timeRemaining, submissions, onSubmitPrompt }) => {
-  const [prompt, setPrompt] = React.useState("");
-  const hasSubmitted = submissions.length > 0; // mock per-currentUser
-  const remaining = 200 - prompt.length;
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-base md:text-lg font-medium">{currentQuestion}</h2>
-        <span className={`text-sm ${timeRemaining <= 5 ? "pulse" : ""}`}>{timeRemaining}s</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <Input
-          maxLength={200}
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Submit your prompt (be creative!)"
-          aria-label="Prompt"
-          className="flex-1"
-        />
-        <Button
-          onClick={() => {
-            if (!prompt.trim()) return;
-            onSubmitPrompt(prompt.trim());
-          }}
-          disabled={hasSubmitted || !prompt.trim()}
-        >
-          Submit
-        </Button>
-      </div>
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span>{remaining} characters left</span>
-        <span>{hasSubmitted ? "Submitted ✔" : "Not submitted"}</span>
-      </div>
-    </div>
-  );
-};
 
 // Generating Phase
 const GeneratingPhase: React.FC<Props> = ({ players, timeRemaining }) => {
