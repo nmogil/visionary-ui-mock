@@ -129,6 +129,20 @@ const VotingPhase: React.FC<VotingPhaseProps> = ({
           </p>
         </div>
 
+        {/* Non-Czar Warning Banner */}
+        {!isCzar && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-muted/80 border border-border px-4 py-2 rounded-none"
+          >
+            <div className="flex items-center gap-2 text-sm">
+              <AlertCircle className="w-4 h-4 text-muted-foreground" />
+              <span className="font-medium">Click any image to view full-size</span>
+            </div>
+          </motion.div>
+        )}
+
         {/* Circular Timer */}
         <div className="relative">
           <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
@@ -260,24 +274,6 @@ const VotingPhase: React.FC<VotingPhaseProps> = ({
           })}
         </div>
 
-        {/* Non-Czar Overlay */}
-        {!isCzar && (
-          <div className="absolute inset-0 bg-background/20 backdrop-blur-[1px] rounded-none pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-              <motion.div
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="bg-background/90 border-2 border-foreground p-4 rounded-none"
-              >
-                <AlertCircle className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
-                <p className="text-sm font-medium">Waiting for Card Czar...</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Click images to view full size
-                </p>
-              </motion.div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Instructions */}
