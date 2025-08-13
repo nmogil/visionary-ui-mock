@@ -31,6 +31,20 @@ const Index = () => {
                 </Link>
               </CardContent>
             </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Micro-Interactions</CardTitle>
+                <CardDescription>
+                  Comprehensive library of subtle animations and UX interactions
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/interactions-guide">
+                  <Button className="w-full">View Style Guide</Button>
+                </Link>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

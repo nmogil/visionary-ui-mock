@@ -98,6 +98,31 @@ export default {
 				confetti: {
 					'0%': { transform: 'translateY(0) rotate(0deg)', opacity: '1' },
 					'100%': { transform: 'translateY(-100px) rotate(360deg)', opacity: '0' }
+				},
+				'micro-bounce': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-2px)' }
+				},
+				'gentle-glow': {
+					'0%, 100%': { boxShadow: '0 0 5px hsl(var(--primary) / 0.3)' },
+					'50%': { boxShadow: '0 0 20px hsl(var(--primary) / 0.6)' }
+				},
+				'ripple': {
+					'0%': { transform: 'scale(0)', opacity: '1' },
+					'100%': { transform: 'scale(4)', opacity: '0' }
+				},
+				'draw-checkmark': {
+					'0%': { strokeDasharray: '0 50', strokeDashoffset: '0' },
+					'100%': { strokeDasharray: '50 0', strokeDashoffset: '0' }
+				},
+				'secret-rainbow': {
+					'0%': { filter: 'hue-rotate(0deg)' },
+					'100%': { filter: 'hue-rotate(360deg)' }
+				},
+				'easter-spin': {
+					'0%': { transform: 'rotate(0deg) scale(1)' },
+					'50%': { transform: 'rotate(180deg) scale(1.1)' },
+					'100%': { transform: 'rotate(360deg) scale(1)' }
 				}
 			},
 			animation: {
@@ -107,7 +132,13 @@ export default {
 				float: 'float 6s ease-in-out infinite',
 				'timer-shake': 'timer-shake 0.5s ease-in-out infinite',
 				'timer-pulse': 'timer-pulse 1s ease-in-out infinite',
-				confetti: 'confetti 3s ease-out infinite'
+				confetti: 'confetti 3s ease-out infinite',
+				'micro-bounce': 'micro-bounce 0.6s ease-in-out infinite',
+				'gentle-glow': 'gentle-glow 2s ease-in-out infinite',
+				'ripple': 'ripple 0.6s ease-out',
+				'draw-checkmark': 'draw-checkmark 0.6s ease-in-out',
+				'secret-rainbow': 'secret-rainbow 2s linear infinite',
+				'easter-spin': 'easter-spin 1s ease-in-out'
 			}
 		}
 	},
