@@ -5,6 +5,7 @@ import PromptPhase from "./phases/PromptPhase";
 import GeneratingPhase from "./phases/GeneratingPhase";
 import VotingPhase from "./phases/VotingPhase";
 import ResultsPhase from "./phases/ResultsPhase";
+import GameOverPhase from "./phases/GameOverPhase";
 
 export type GamePhase = "prompting" | "generating" | "voting" | "results" | "gameOver";
 
@@ -38,7 +39,7 @@ const PhaseContainer: React.FC<Props> = (props) => {
     submissions={props.submissions}
     timeRemaining={props.timeRemaining}
   />;
-  return <GameOverPhase {...props} />;
+  return <GameOverPhase players={props.players} />;
 };
 
 export default PhaseContainer;
@@ -47,26 +48,3 @@ export default PhaseContainer;
 
 
 
-// Game Over Phase
-const GameOverPhase: React.FC<Props> = ({ players }) => {
-  const sorted = [...players].sort((a, b) => b.score - a.score);
-  return (
-    <div className="space-y-4">
-      <h2 className="text-base md:text-lg font-medium">🎉 {sorted[0]?.name} is the champion!</h2>
-      <div>
-        <ol className="list-decimal pl-5 space-y-1">
-          {sorted.map((p) => (
-            <li key={p.id} className="flex items-center justify-between">
-              <span>{p.name}</span>
-              <span className="font-medium">{p.score}</span>
-            </li>
-          ))}
-        </ol>
-      </div>
-      <div className="flex gap-2">
-        <Button onClick={() => (window.location.href = "/room/ABCDEF")}>Play Again</Button>
-        <Button variant="outline" onClick={() => (window.location.href = "/")}>Back to Home</Button>
-      </div>
-    </div>
-  );
-};
