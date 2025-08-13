@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
 import { Slider } from "@/components/ui/8bit/slider";
 import { Label } from "@/components/ui/8bit/label";
+import ImageGallery, { ImageData } from "@/components/game/ImageGallery";
 
 interface Player {
   id: string;
@@ -296,32 +297,23 @@ const GameOverPhase: React.FC<GameOverPhaseProps> = ({ players }) => {
             Best Images Gallery
             <ImageIcon className="w-5 h-5" />
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {MOCK_WINNING_IMAGES.map((image, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.2 + index * 0.1 }}
-                className="group"
-              >
-                <div className="relative aspect-square overflow-hidden border-2 border-foreground rounded-none">
-                  <img
-                    src={image.url}
-                    alt={`Winning image by ${image.winner}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                  <div className="absolute top-1 right-1">
-                    <Star className="w-4 h-4 text-primary fill-current" />
-                  </div>
-                </div>
-                <div className="mt-2 text-center">
-                  <p className="font-medium text-sm">{image.winner}</p>
-                  <p className="text-xs text-muted-foreground italic">"{image.prompt}"</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <ImageGallery
+            images={MOCK_WINNING_IMAGES.map((image, index) => ({
+              id: `winner-${index}`,
+              url: image.url,
+              player: image.winner,
+              prompt: image.prompt,
+              timestamp: new Date(),
+              isFavorite: true,
+              metadata: {
+                width: 300,
+                height: 300,
+              },
+            } as ImageData))}
+            className="mt-4"
+            enableComparison={true}
+            autoLayout={true}
+          />
         </Card>
       </motion.div>
 

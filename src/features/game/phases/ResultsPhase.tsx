@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Crown, Download, Share2, Twitter, Facebook, Trophy, Star, Sparkles, ArrowUp, ArrowDown, Minus } from "lucide-react";
 import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
+import ImageGallery, { ImageData } from "@/components/game/ImageGallery";
 
 interface Player {
   id: string;
@@ -304,51 +305,27 @@ const ResultsPhase: React.FC<ResultsPhaseProps> = ({
       {/* All Submissions */}
       <div className="space-y-4">
         <h3 className="text-lg font-display text-center">All Submissions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {imagesToShow.map((imageUrl, index) => {
+        <ImageGallery
+          images={imagesToShow.map((imageUrl, index) => {
             const submission = submissions[index];
             const player = submission ? players.find(p => p.id === submission.playerId) : players[index];
-            const isWinner = selectedWinner === index;
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 + 0.8 }}
-              >
-                <Card className={`p-3 ${isWinner ? 'border-primary bg-primary/5' : ''}`}>
-                  <div className="space-y-2">
-                    <div className="relative aspect-square overflow-hidden border-2 border-foreground rounded-none">
-                      <img
-                        src={imageUrl}
-                        alt={`Submission ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                      {isWinner && (
-                        <div className="absolute top-1 right-1">
-                          <Star className="w-5 h-5 text-primary fill-current" />
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="space-y-1">
-                      <p className="font-medium text-sm flex items-center gap-1">
-                        {isWinner && <Crown className="w-3 h-3 text-primary" />}
-                        {player?.name || `Player ${index + 1}`}
-                      </p>
-                      {submission && (
-                        <p className="text-xs text-muted-foreground italic">
-                          "{submission.prompt}"
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            );
+            return {
+              id: `submission-${index}`,
+              url: imageUrl,
+              player: player?.name || `Player ${index + 1}`,
+              prompt: submission?.prompt || currentQuestion,
+              timestamp: new Date(),
+              isFavorite: selectedWinner === index,
+              metadata: {
+                width: 400,
+                height: 400,
+              },
+            } as ImageData;
           })}
-        </div>
+          className="mt-4"
+          enableComparison={true}
+          autoLayout={true}
+        />
       </div>
 
       {/* Scoreboard */}
