@@ -4,6 +4,7 @@ import { Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ImpactStyle } from "@capacitor/haptics";
+import { GentlePulse, ScaleClick } from "@/components/interactions/MicroInteractions";
 
 interface ActionItem {
   icon: React.ComponentType<{ className?: string }>;
@@ -88,11 +89,8 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
                   )}
                 </AnimatePresence>
 
-                {/* Action button */}
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
+                {/* Enhanced Action button */}
+                <ScaleClick>
                   <Button
                     size="icon"
                     className={cn(
@@ -105,54 +103,36 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
                   >
                     <item.icon className="h-5 w-5" />
                   </Button>
-                </motion.div>
+                </ScaleClick>
               </motion.div>
             ))}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main FAB */}
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="relative"
-      >
-        <Button
-          size="icon"
-          className="w-14 h-14 rounded-full bg-primary shadow-lg"
-          onClick={toggleExpanded}
-        >
-          <motion.div
-            animate={{ rotate: isExpanded ? 45 : 0 }}
-            transition={{ duration: 0.2 }}
+      {/* Enhanced Main FAB with GentlePulse */}
+      <GentlePulse>
+        <ScaleClick>
+          <Button
+            size="icon"
+            className="w-14 h-14 rounded-full bg-primary shadow-lg relative"
+            onClick={toggleExpanded}
           >
-            {isExpanded ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Plus className="h-6 w-6" />
-            )}
-          </motion.div>
-        </Button>
+            <motion.div
+              animate={{ rotate: isExpanded ? 45 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {isExpanded ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Plus className="h-6 w-6" />
+              )}
+            </motion.div>
+          </Button>
+        </ScaleClick>
+      </GentlePulse>
 
-        {/* Pulse animation for attention */}
-        {!isExpanded && primaryActions.length > 0 && (
-          <motion.div
-            className="absolute inset-0 rounded-full bg-primary"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.7, 0, 0.7],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatDelay: 3,
-            }}
-          />
-        )}
-      </motion.div>
-
-      {/* Long press context menu hint */}
+      {/* Enhanced hint */}
       {!isExpanded && (
         <motion.div
           className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/75 text-white text-xs px-2 py-1 rounded whitespace-nowrap"

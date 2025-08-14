@@ -4,6 +4,12 @@ import { Crown, Download, Share2, Twitter, Facebook, Trophy, Star, Sparkles, Arr
 import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
 import ImageGallery, { ImageData } from "@/components/game/ImageGallery";
+import { 
+  GentlePulse, 
+  PointAddition, 
+  GlowEffect,
+  CardShadow 
+} from "@/components/interactions/MicroInteractions";
 
 interface Player {
   id: string;
@@ -95,6 +101,7 @@ const ResultsPhase: React.FC<ResultsPhaseProps> = ({
 }) => {
   const [showConfetti, setShowConfetti] = useState(true);
   const [winnerMessage] = useState(WINNER_MESSAGES[Math.floor(Math.random() * WINNER_MESSAGES.length)]);
+  const [showScoreAnimations, setShowScoreAnimations] = useState(false);
   const [previousScores] = useState<{ [key: string]: number }>(() => {
     // Mock previous scores (1 point less for winner)
     const prev: { [key: string]: number } = {};
@@ -112,10 +119,14 @@ const ResultsPhase: React.FC<ResultsPhaseProps> = ({
   const winningSubmission = selectedWinner !== null ? submissions[selectedWinner] : null;
   const winningPlayer = winningSubmission ? players.find(p => p.id === winningSubmission.playerId) : null;
 
-  // Stop confetti after 4 seconds
+  // Stop confetti after 4 seconds and trigger score animations
   useEffect(() => {
-    const timer = setTimeout(() => setShowConfetti(false), 4000);
-    return () => clearTimeout(timer);
+    const confettiTimer = setTimeout(() => setShowConfetti(false), 4000);
+    const scoreTimer = setTimeout(() => setShowScoreAnimations(true), 2000);
+    return () => {
+      clearTimeout(confettiTimer);
+      clearTimeout(scoreTimer);
+    };
   }, []);
 
   const handleDownload = async () => {
@@ -167,15 +178,17 @@ const ResultsPhase: React.FC<ResultsPhaseProps> = ({
 
       {/* Header */}
       <div className="text-center space-y-4">
-        <motion.h2
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-2xl md:text-3xl font-display tracking-wide flex items-center justify-center gap-3"
-        >
-          <Trophy className="w-8 h-8 text-primary" />
-          Round Results!
-          <Trophy className="w-8 h-8 text-primary" />
-        </motion.h2>
+        <GentlePulse>
+          <motion.h2
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-2xl md:text-3xl font-display tracking-wide flex items-center justify-center gap-3"
+          >
+            <Trophy className="w-8 h-8 text-primary" />
+            Round Results!
+            <Trophy className="w-8 h-8 text-primary" />
+          </motion.h2>
+        </GentlePulse>
 
         {/* Winner Message */}
         {winningPlayer && (
@@ -208,55 +221,51 @@ const ResultsPhase: React.FC<ResultsPhaseProps> = ({
           transition={{ delay: 0.3 }}
           className="relative"
         >
-          <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary">
-            <div className="flex flex-col lg:flex-row gap-6 items-center">
-              {/* Winning Image */}
-              <div className="relative">
-                <motion.div
-                  className="relative aspect-square w-64 h-64 border-4 border-primary rounded-none overflow-hidden"
-                  animate={{ 
-                    boxShadow: [
-                      "0 0 20px rgba(255, 215, 0, 0.5)",
-                      "0 0 40px rgba(255, 215, 0, 0.8)",
-                      "0 0 20px rgba(255, 215, 0, 0.5)"
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <img
-                    src={winningImage}
-                    alt="Winning submission"
-                    className="w-full h-full object-cover"
-                  />
-                  
-                  {/* Crown overlay */}
-                  <div className="absolute -top-3 -right-3">
-                    <motion.div
-                      animate={{ rotate: [0, 10, -10, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center"
-                    >
-                      <Crown className="w-5 h-5 text-primary-foreground" />
-                    </motion.div>
-                  </div>
-                </motion.div>
+          <CardShadow>
+            <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary">
+              <div className="flex flex-col lg:flex-row gap-6 items-center">
+                {/* Enhanced Winning Image */}
+                <div className="relative">
+                  <GlowEffect isGlowing={true}>
+                    <GentlePulse>
+                      <motion.div
+                        className="relative aspect-square w-64 h-64 border-4 border-primary rounded-none overflow-hidden"
+                        animate={{ 
+                          boxShadow: [
+                            "0 0 20px rgba(255, 215, 0, 0.5)",
+                            "0 0 40px rgba(255, 215, 0, 0.8)",
+                            "0 0 20px rgba(255, 215, 0, 0.5)"
+                          ]
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <img
+                          src={winningImage}
+                          alt="Winning submission"
+                          className="w-full h-full object-cover"
+                        />
+                        
+                        {/* Crown overlay */}
+                        <div className="absolute -top-3 -right-3">
+                          <motion.div
+                            animate={{ rotate: [0, 10, -10, 0] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="w-8 h-8 bg-primary rounded-full flex items-center justify-center"
+                          >
+                            <Crown className="w-5 h-5 text-primary-foreground" />
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    </GentlePulse>
+                  </GlowEffect>
 
-                {/* +1 Point Animation */}
-                <motion.div
-                  initial={{ opacity: 0, y: 0, scale: 0.5 }}
-                  animate={{ 
-                    opacity: [0, 1, 1, 0],
-                    y: [0, -50, -80, -100],
-                    scale: [0.5, 1, 1.2, 0.8]
-                  }}
-                  transition={{ duration: 2, delay: 1.5 }}
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                >
-                  <div className="bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold text-lg">
-                    +1 POINT!
-                  </div>
-                </motion.div>
-              </div>
+                  {/* Enhanced +1 Point Animation */}
+                  <PointAddition 
+                    points={1} 
+                    isVisible={showScoreAnimations} 
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  />
+                </div>
 
               {/* Winning Details */}
               <div className="flex-1 space-y-4 text-center lg:text-left">
@@ -299,6 +308,7 @@ const ResultsPhase: React.FC<ResultsPhaseProps> = ({
               </div>
             </div>
           </Card>
+          </CardShadow>
         </motion.div>
       )}
 
@@ -328,57 +338,87 @@ const ResultsPhase: React.FC<ResultsPhaseProps> = ({
         />
       </div>
 
-      {/* Scoreboard */}
+      {/* Enhanced Scoreboard */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2 }}
       >
-        <Card className="p-6">
-          <h3 className="text-lg font-display mb-4 text-center">Updated Scoreboard</h3>
-          <div className="space-y-2">
-            {sortedPlayers.map((player, index) => {
-              const scoreChange = getScoreChange(player);
-              return (
-                <motion.div
-                  key={player.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.4 + index * 0.1 }}
-                  className="flex items-center justify-between p-3 bg-muted/30 rounded-none border border-border"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="w-6 h-6 bg-foreground text-background rounded-full flex items-center justify-center text-sm font-mono">
-                      {index + 1}
-                    </span>
-                    <span className="font-medium">{player.name}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold">{player.score}</span>
-                    {scoreChange.type !== 'same' && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 1.6 + index * 0.1 }}
-                        className={`flex items-center gap-1 text-sm ${
-                          scoreChange.type === 'up' ? 'text-success' : 'text-destructive'
-                        }`}
-                      >
-                        {scoreChange.type === 'up' ? (
-                          <ArrowUp className="w-3 h-3" />
-                        ) : (
-                          <ArrowDown className="w-3 h-3" />
+        <CardShadow>
+          <Card className="p-6">
+            <h3 className="text-lg font-display mb-4 text-center">Updated Scoreboard</h3>
+            <div className="space-y-2">
+              {sortedPlayers.map((player, index) => {
+                const scoreChange = getScoreChange(player);
+                const isWinner = winningPlayer?.id === player.id;
+                
+                return (
+                  <motion.div
+                    key={player.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.4 + index * 0.1 }}
+                    className={`flex items-center justify-between p-3 bg-muted/30 rounded-none border border-border ${
+                      isWinner ? 'bg-primary/10 border-primary' : ''
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        {index === 0 && <Trophy className="w-5 h-5 text-primary" />}
+                        {index === 1 && <Star className="w-4 h-4 text-muted-foreground" />}
+                        {index === 2 && <Sparkles className="w-4 h-4 text-muted-foreground" />}
+                        <span className="font-medium">{player.name}</span>
+                        {isWinner && <Crown className="w-4 h-4 text-primary" />}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      {/* Enhanced Score Change Animation */}
+                      <AnimatePresence>
+                        {showScoreAnimations && scoreChange.type === 'up' && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="flex items-center gap-1 text-green-500 text-sm font-medium"
+                          >
+                            <ArrowUp className="w-3 h-3" />
+                            +{scoreChange.value}
+                          </motion.div>
                         )}
-                        {scoreChange.value}
-                      </motion.div>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </Card>
+                        {showScoreAnimations && scoreChange.type === 'down' && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="flex items-center gap-1 text-red-500 text-sm font-medium"
+                          >
+                            <ArrowDown className="w-3 h-3" />
+                            -{scoreChange.value}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <div className="text-right">
+                        <motion.div 
+                          className="text-lg font-bold"
+                          animate={isWinner && showScoreAnimations ? { 
+                            scale: [1, 1.2, 1],
+                            color: ["hsl(var(--foreground))", "hsl(var(--primary))", "hsl(var(--foreground))"]
+                          } : {}}
+                          transition={{ duration: 0.6, delay: 2 }}
+                        >
+                          {player.score}
+                        </motion.div>
+                        <div className="text-xs text-muted-foreground">points</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </Card>
+        </CardShadow>
       </motion.div>
 
       {/* Next Round Countdown */}

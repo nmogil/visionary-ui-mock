@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Crown, Eye, Timer, Check, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
+import { 
+  RippleEffect, 
+  GlowEffect, 
+  ShakeAttention, 
+  CardShadow 
+} from "@/components/interactions/MicroInteractions";
 
 interface Player {
   id: string;
@@ -56,6 +62,7 @@ const VotingPhase: React.FC<VotingPhaseProps> = ({
   const isCzar = cardCzarId === currentUserId;
   const totalTime = 30; // 30 seconds for voting
   const progress = ((totalTime - timeRemaining) / totalTime) * 100;
+  const isTimeWarning = timeRemaining <= 10;
   
   // Use mock images if no generated images provided
   const imagesToShow = generatedImages.length > 0 ? generatedImages : MOCK_IMAGES.slice(0, players.length);
@@ -143,33 +150,37 @@ const VotingPhase: React.FC<VotingPhaseProps> = ({
           </motion.div>
         )}
 
-        {/* Circular Timer */}
-        <div className="relative">
-          <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-            <path
-              className="stroke-muted"
-              strokeWidth="2"
-              fill="none"
-              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-            />
-            <motion.path
-              className="stroke-primary"
-              strokeWidth="2"
-              strokeLinecap="round"
-              fill="none"
-              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              initial={{ strokeDasharray: "0 100" }}
-              animate={{ strokeDasharray: `${progress} 100` }}
-              transition={{ duration: 0.5 }}
-            />
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <Timer className="w-4 h-4 mx-auto text-primary" />
-              <span className="text-xs font-mono">{timeRemaining}s</span>
+        {/* Enhanced Timer with Shake Warning */}
+        <ShakeAttention isShaking={isTimeWarning}>
+          <div className="relative">
+            <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+              <path
+                className="stroke-muted"
+                strokeWidth="2"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <motion.path
+                className={`${isTimeWarning ? 'stroke-destructive' : 'stroke-primary'}`}
+                strokeWidth="2"
+                strokeLinecap="round"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                initial={{ strokeDasharray: "0 100" }}
+                animate={{ strokeDasharray: `${progress} 100` }}
+                transition={{ duration: 0.5 }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center">
+                <Timer className={`w-4 h-4 mx-auto ${isTimeWarning ? 'text-destructive' : 'text-primary'}`} />
+                <span className={`text-xs font-mono ${isTimeWarning ? 'text-destructive font-bold' : ''}`}>
+                  {timeRemaining}s
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </ShakeAttention>
       </div>
 
       {/* Images Grid */}
@@ -187,31 +198,34 @@ const VotingPhase: React.FC<VotingPhaseProps> = ({
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
               >
-                {/* Image Container */}
-                <motion.div
-                  className={`relative aspect-square overflow-hidden border-2 rounded-none cursor-pointer ${
-                    isSelected 
-                      ? "border-primary shadow-lg" 
-                      : isCzar 
-                        ? "border-foreground hover:border-primary" 
-                        : "border-foreground"
-                  }`}
-                  whileHover={isCzar ? { scale: 1.02 } : { scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  animate={
-                    isCzar && !isSelected ? {
-                      borderColor: ["hsl(var(--foreground))", "hsl(var(--primary))", "hsl(var(--foreground))"]
-                    } : {}
-                  }
-                  transition={
-                    isCzar && !isSelected ? {
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    } : {}
-                  }
-                  onClick={() => handleImageClick(index)}
-                >
+                {/* Enhanced Image Container with Ripple and Glow */}
+                <RippleEffect>
+                  <GlowEffect isGlowing={isSelected}>
+                    <CardShadow>
+                      <motion.div
+                        className={`relative aspect-square overflow-hidden border-2 rounded-none cursor-pointer ${
+                          isSelected 
+                            ? "border-primary shadow-lg" 
+                            : isCzar 
+                              ? "border-foreground hover:border-primary" 
+                              : "border-foreground"
+                        }`}
+                        whileHover={isCzar ? { scale: 1.02 } : { scale: 1.01 }}
+                        whileTap={{ scale: 0.98 }}
+                        animate={
+                          isCzar && !isSelected ? {
+                            borderColor: ["hsl(var(--foreground))", "hsl(var(--primary))", "hsl(var(--foreground))"]
+                          } : {}
+                        }
+                        transition={
+                          isCzar && !isSelected ? {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          } : {}
+                        }
+                        onClick={() => handleImageClick(index)}
+                      >
                   <img
                     src={imageUrl}
                     alt={`Generated image ${index + 1}`}
@@ -259,11 +273,14 @@ const VotingPhase: React.FC<VotingPhaseProps> = ({
                     <div className="absolute inset-0 bg-warning/20 border-2 border-warning animate-pulse" />
                   )}
 
-                  {/* Click Indicator for Card Czar */}
-                  {isCzar && clickCount[index] === 1 && (
-                    <div className="absolute inset-0 bg-primary/10 animate-pulse" />
-                  )}
-                </motion.div>
+                        {/* Click Indicator for Card Czar */}
+                        {isCzar && clickCount[index] === 1 && (
+                          <div className="absolute inset-0 bg-primary/10 animate-pulse" />
+                        )}
+                      </motion.div>
+                    </CardShadow>
+                  </GlowEffect>
+                </RippleEffect>
 
                 {/* Image Index */}
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-foreground text-background rounded-full flex items-center justify-center text-xs font-mono">
@@ -338,35 +355,37 @@ const VotingPhase: React.FC<VotingPhaseProps> = ({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
             >
-              <Card className="p-6 max-w-md text-center space-y-4">
-                <Crown className="w-12 h-12 text-primary mx-auto" />
-                <h3 className="text-lg font-display">Confirm Winner</h3>
-                <p className="text-sm text-muted-foreground">
-                  Are you sure you want to choose <strong>{getPlayerName(pendingVote)}</strong>'s image as the winner?
-                </p>
-                <div className="aspect-square w-32 mx-auto border-2 border-foreground rounded-none overflow-hidden">
-                  <img
-                    src={imagesToShow[pendingVote]}
-                    alt="Selected winner"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={handleCancelVote}
-                    className="flex-1"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleConfirmVote}
-                    className="flex-1"
-                  >
-                    Confirm Winner
-                  </Button>
-                </div>
-              </Card>
+              <CardShadow>
+                <Card className="p-6 max-w-md text-center space-y-4">
+                  <Crown className="w-12 h-12 text-primary mx-auto" />
+                  <h3 className="text-lg font-display">Confirm Winner</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Are you sure you want to choose <strong>{getPlayerName(pendingVote)}</strong>'s image as the winner?
+                  </p>
+                  <div className="aspect-square w-32 mx-auto border-2 border-foreground rounded-none overflow-hidden">
+                    <img
+                      src={imagesToShow[pendingVote]}
+                      alt="Selected winner"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={handleCancelVote}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleConfirmVote}
+                      className="flex-1"
+                    >
+                      Confirm Winner
+                    </Button>
+                  </div>
+                </Card>
+              </CardShadow>
             </motion.div>
           </motion.div>
         )}
